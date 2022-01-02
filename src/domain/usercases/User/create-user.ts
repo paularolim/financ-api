@@ -1,6 +1,6 @@
 // import { User } from '../../models/user';
-import { ValidationError } from '../../errors/ValidationError';
-import { validationEmail } from '../../utils/validationEmail';
+import { ValidationError } from '../../../errors/ValidationError';
+import { validationEmail } from '../../../utils/validationEmail';
 
 interface ICreateUser {
   name: string;
