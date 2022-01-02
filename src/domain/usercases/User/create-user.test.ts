@@ -1,4 +1,3 @@
-import { ValidationError } from '../../../errors/ValidationError';
 import { CreateUser } from './create-user';
 
 describe('Create User', () => {
@@ -25,7 +24,7 @@ describe('Create User', () => {
       password: 'any_password2',
     });
 
-    expect(user instanceof ValidationError).toBeTruthy();
+    expect(user).toHaveProperty('message', 'the email is invalid');
   });
 
   it('should return an error if an invalid password is provided', async () => {
@@ -35,7 +34,7 @@ describe('Create User', () => {
       password: 'any_password',
     });
 
-    expect(user instanceof ValidationError).toBeTruthy();
+    expect(user).toHaveProperty('message', 'the password is invalid');
   });
 
   it('should return an error if the name is undefined', async () => {
@@ -44,7 +43,24 @@ describe('Create User', () => {
       email: 'any_email@email.com',
       password: 'any_password2',
     });
+    expect(user).toHaveProperty('message', 'the name is required');
+  });
 
-    expect(user instanceof ValidationError).toBeTruthy();
+  it('should return an error if the email is undefined', async () => {
+    const user = await new CreateUser().create({
+      name: 'any_name',
+      email: '',
+      password: 'any_password2',
+    });
+    expect(user).toHaveProperty('message', 'the email is required');
+  });
+
+  it('should return an error if the password is undefined', async () => {
+    const user = await new CreateUser().create({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: '',
+    });
+    expect(user).toHaveProperty('message', 'the password is required');
   });
 });

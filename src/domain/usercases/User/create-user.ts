@@ -11,16 +11,20 @@ interface ICreateUser {
 
 export class CreateUser {
   create(user: ICreateUser) {
-    if (!user.name) {
-      return new ValidationError('the name is required');
+    const requiredFields = ['name', 'email', 'password'];
+
+    for (const field of requiredFields) {
+      if (!user[field as keyof ICreateUser]) {
+        return new ValidationError(`the ${field} is required`);
+      }
     }
 
     if (!validationEmail(user.email)) {
-      return new ValidationError('the email is wrong');
+      return new ValidationError('the email is invalid');
     }
 
     if (!validationPassword(user.password)) {
-      return new ValidationError('the password is wrong');
+      return new ValidationError('the password is invalid');
     }
 
     return new Promise((resolve) => {
