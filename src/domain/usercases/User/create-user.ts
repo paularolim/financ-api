@@ -11,6 +11,10 @@ interface ICreateUser {
 
 export class CreateUser {
   create(user: ICreateUser) {
+    if (!user.name) {
+      return new ValidationError('the name is required');
+    }
+
     if (!validationEmail(user.email)) {
       return new ValidationError('the email is wrong');
     }
@@ -18,6 +22,7 @@ export class CreateUser {
     if (!validationPassword(user.password)) {
       return new ValidationError('the password is wrong');
     }
+
     return new Promise((resolve) => {
       resolve({
         name: user.name,

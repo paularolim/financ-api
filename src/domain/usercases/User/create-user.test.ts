@@ -31,8 +31,18 @@ describe('Create User', () => {
   it('should return an error if an invalid password is provided', async () => {
     const user = await new CreateUser().create({
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@email.com',
       password: 'any_password',
+    });
+
+    expect(user instanceof ValidationError).toBeTruthy();
+  });
+
+  it('should return an error if the name is undefined', async () => {
+    const user = await new CreateUser().create({
+      name: '',
+      email: 'any_email@email.com',
+      password: 'any_password2',
     });
 
     expect(user instanceof ValidationError).toBeTruthy();
