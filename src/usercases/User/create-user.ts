@@ -1,4 +1,6 @@
-import { User } from '../../models/user';
+// import { User } from '../../models/user';
+import { ValidationError } from '../../errors/ValidationError';
+import { validationEmail } from '../../utils/validationEmail';
 
 interface ICreateUser {
   name: string;
@@ -6,12 +8,18 @@ interface ICreateUser {
   password: string;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export class CreateUser {
-  // eslint-disable-next-line class-methods-use-this
-  create(user: ICreateUser): Promise<User> {
+  create(user: ICreateUser) {
+    const verifyEmail = validationEmail(user.email);
+    if (!verifyEmail) {
+      return new ValidationError('the email is wrong');
+    }
     return new Promise((resolve) => {
-      resolve({ name: user.name, email: user.email, password: user.password });
+      resolve({
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      });
     });
   }
 }
