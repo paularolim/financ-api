@@ -1,6 +1,7 @@
 // import { User } from '../../models/user';
 import { ValidationError } from '../../../errors/ValidationError';
 import { validationEmail } from '../../../utils/validationEmail';
+import { validationPassword } from '../../../utils/validationPassword';
 
 interface ICreateUser {
   name: string;
@@ -10,9 +11,12 @@ interface ICreateUser {
 
 export class CreateUser {
   create(user: ICreateUser) {
-    const verifyEmail = validationEmail(user.email);
-    if (!verifyEmail) {
+    if (!validationEmail(user.email)) {
       return new ValidationError('the email is wrong');
+    }
+
+    if (!validationPassword(user.password)) {
+      return new ValidationError('the password is wrong');
     }
     return new Promise((resolve) => {
       resolve({
