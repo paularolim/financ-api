@@ -1,7 +1,7 @@
 // import { User } from '../../models/user';
 import { ValidationError } from '../../../errors/ValidationError';
-import { validationEmail } from '../../../utils/validationEmail';
-import { validationPassword } from '../../../utils/validationPassword';
+import { validationEmail } from '../../../utils/user/validationEmail';
+import { validationPassword } from '../../../utils/user/validationPassword';
 
 interface ICreateUser {
   name: string;
